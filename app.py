@@ -4,20 +4,20 @@ import numpy as np
 from PIL import Image
 
 
-# ==========================
+# =====================================================
 # Page Configuration
-# ==========================
+# =====================================================
 
 st.set_page_config(
-    page_title="Tomato Vision AI",
+    page_title="Tomato Leaf Disease Detection",
     page_icon="🍅",
     layout="wide"
 )
 
 
-# ==========================
-# Premium CSS
-# ==========================
+# =====================================================
+# Custom CSS
+# =====================================================
 
 st.markdown("""
 <style>
@@ -25,13 +25,16 @@ st.markdown("""
 .stApp {
     background: linear-gradient(
         180deg,
-        #f8fafc,
-        #ffffff
+        #f8fafc 0%,
+        #ffffff 100%
     );
 }
 
 
+/* Header */
+
 .hero {
+
     background:
     linear-gradient(
         135deg,
@@ -39,24 +42,39 @@ st.markdown("""
         #dc2626
     );
 
-    padding:55px;
-    border-radius:30px;
-    color:white;
+    padding: 55px;
+
+    border-radius: 35px;
+
     text-align:center;
+
+    color:white;
+
+    margin-bottom:35px;
+
 }
 
 
 .hero h1 {
-    font-size:55px;
+
+    font-size:52px;
+
     font-weight:900;
+
+    margin-bottom:15px;
+
 }
 
 
 .hero p {
+
     font-size:22px;
+
 }
 
 
+
+/* Cards */
 
 .card {
 
@@ -67,26 +85,31 @@ st.markdown("""
     border-radius:30px;
 
     box-shadow:
-    0px 15px 35px
-    rgba(0,0,0,0.08);
+    0 15px 35px rgba(0,0,0,0.08);
+
+    margin-bottom:25px;
 
 }
 
 
 
-.upload-card {
+/* Upload */
 
-    border:3px dashed #16a34a;
-
-    border-radius:25px;
-
-    padding:30px;
+.upload-box {
 
     background:#f0fdf4;
 
+    border:3px dashed #16a34a;
+
+    padding:35px;
+
+    border-radius:30px;
+
 }
 
 
+
+/* Result */
 
 .result {
 
@@ -96,17 +119,18 @@ st.markdown("""
 
     font-weight:900;
 
+    padding:20px;
+
 }
 
 
-
-.confidence {
+.confidence-box {
 
     background:#f8fafc;
 
-    padding:25px;
-
     border-radius:25px;
+
+    padding:25px;
 
     text-align:center;
 
@@ -114,7 +138,9 @@ st.markdown("""
 
 
 
-.section {
+/* Sections */
+
+.section-title {
 
     font-size:32px;
 
@@ -122,11 +148,15 @@ st.markdown("""
 
     color:#166534;
 
+    margin-top:30px;
+
 }
 
 
 
-.small-card {
+/* Feature cards */
+
+.feature {
 
     background:white;
 
@@ -137,11 +167,13 @@ st.markdown("""
     text-align:center;
 
     box-shadow:
-    0px 8px 25px
-    rgba(0,0,0,0.06);
+    0 8px 25px rgba(0,0,0,0.06);
 
 }
 
+
+
+/* Footer */
 
 .footer {
 
@@ -156,78 +188,81 @@ st.markdown("""
 
 </style>
 
-""",
-unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 
 
-# ==========================
+# =====================================================
 # Header
-# ==========================
+# =====================================================
 
 st.markdown("""
 <div class="hero">
 
-<h1>🍅 Tomato Vision AI</h1>
+<h1>
+🍅 Tomato Leaf Disease Detection
+</h1>
+
 
 <p>
-Intelligent Tomato Leaf Disease Detection System
+AI-powered system for detecting tomato leaf diseases
+using Deep Learning and Computer Vision
 </p>
 
-<p>
-Powered by Deep Learning & Computer Vision
-</p>
 
 </div>
-""",
-unsafe_allow_html=True)
+
+""", unsafe_allow_html=True)
 
 
 
-# ==========================
-# Model Loading
-# ==========================
+# =====================================================
+# Load Model
+# =====================================================
 
 @st.cache_resource
 def load_model():
 
-    return tf.keras.models.load_model(
+    model = tf.keras.models.load_model(
         "TomatoLeaf_Model.h5"
     )
+
+    return model
+
 
 
 model = load_model()
 
 
 
-# ==========================
-# Main Section
-# ==========================
+# =====================================================
+# Upload Section
+# =====================================================
 
 
-left,right = st.columns(
+col1, col2 = st.columns(
     [1,1]
 )
 
 
 
-with left:
+with col1:
 
-    st.markdown(
-    """
-    <div class="upload-card">
+    st.markdown("""
+    <div class="upload-box">
 
     <h2>
-    📤 Upload Image
+    📤 Upload Tomato Leaf Image
     </h2>
 
-    Upload a tomato leaf image to analyze
-    its health condition using AI.
+    Upload an image of a tomato leaf
+    and let the AI model analyze it.
 
     </div>
+
     """,
-    unsafe_allow_html=True
-    )
+    unsafe_allow_html=True)
+
 
 
     uploaded_file = st.file_uploader(
@@ -241,14 +276,15 @@ with left:
 
 
 
-with right:
 
-    st.markdown(
-    """
+with col2:
+
+    st.markdown("""
     <div class="card">
 
+
     <h2>
-    🧠 AI Model
+    🧠 Model Information
     </h2>
 
 
@@ -259,13 +295,19 @@ with right:
 
 
     <p>
-    <b>Method:</b>
+    <b>Technique:</b>
     Transfer Learning
     </p>
 
 
     <p>
-    <b>Classification:</b>
+    <b>Framework:</b>
+    TensorFlow / Keras
+    </p>
+
+
+    <p>
+    <b>Classes:</b>
     </p>
 
     🍃 Healthy
@@ -278,16 +320,17 @@ with right:
     </div>
 
     """,
-    unsafe_allow_html=True
-    )
+    unsafe_allow_html=True)
 
 
 
-# ==========================
+
+# =====================================================
 # Prediction
-# ==========================
+# =====================================================
 
-if uploaded_file:
+
+if uploaded_file is not None:
 
 
     image = Image.open(
@@ -295,47 +338,56 @@ if uploaded_file:
     ).convert("RGB")
 
 
-    processed = image.resize(
+
+    img = image.resize(
         (224,224)
     )
 
 
-    processed = np.array(
-        processed
+
+    img = np.array(
+        img
     ).astype(
         "float32"
     ) / 255.0
 
 
-    processed = np.expand_dims(
-        processed,
+
+    img = np.expand_dims(
+        img,
         axis=0
     )
 
 
+
     prediction = model.predict(
-        processed,
+        img,
         verbose=0
     )[0][0]
 
 
 
+
     if prediction >= 0.5:
+
 
         label = "Healthy 🍃"
 
         confidence = prediction * 100
 
-        color="#16a34a"
+        color = "#16a34a"
+
 
 
     else:
 
+
         label = "Diseased 🦠"
 
-        confidence = (1-prediction)*100
+        confidence = (1-prediction) * 100
 
-        color="#dc2626"
+        color = "#dc2626"
+
 
 
 
@@ -343,12 +395,13 @@ if uploaded_file:
 
 
 
-    img_col,result_col = st.columns(
+    image_col, result_col = st.columns(
         [1,1]
     )
 
 
-    with img_col:
+
+    with image_col:
 
 
         st.markdown(
@@ -359,15 +412,17 @@ if uploaded_file:
 
         st.image(
             image,
-            caption="Analyzed Image",
+            caption="Uploaded Image",
             use_container_width=True
         )
 
 
         st.markdown(
-        '</div>',
+        "</div>",
         unsafe_allow_html=True
         )
+
+
 
 
 
@@ -382,32 +437,41 @@ if uploaded_file:
 
         st.markdown(
         f"""
+
         <div class="result"
-        style="color:{color}">
+        style="color:{color};">
+
         {label}
+
         </div>
+
         """,
         unsafe_allow_html=True
         )
 
 
+
         st.markdown(
         f"""
-        <div class="confidence">
+
+        <div class="confidence-box">
 
         <h3>
         Confidence Score
         </h3>
 
+
         <h1>
         {confidence:.2f}%
         </h1>
+
 
         </div>
 
         """,
         unsafe_allow_html=True
         )
+
 
 
         st.progress(
@@ -415,16 +479,18 @@ if uploaded_file:
         )
 
 
+
         st.markdown(
-        '</div>',
+        "</div>",
         unsafe_allow_html=True
         )
 
 
 
-# ==========================
-# Features
-# ==========================
+
+# =====================================================
+# How It Works
+# =====================================================
 
 
 st.markdown("---")
@@ -432,8 +498,8 @@ st.markdown("---")
 
 st.markdown(
 """
-<div class="section">
-✨ System Features
+<div class="section-title">
+⚙️ How It Works
 </div>
 """,
 unsafe_allow_html=True
@@ -441,82 +507,88 @@ unsafe_allow_html=True
 
 
 
-a,b,c = st.columns(3)
+c1,c2,c3 = st.columns(3)
 
 
 
-with a:
+with c1:
 
-    st.markdown(
-    """
-    <div class="small-card">
+    st.markdown("""
+    <div class="feature">
 
     📷
 
     <h3>
-    Image Analysis
+    Upload Image
     </h3>
 
-    AI-based image processing
+    User provides tomato leaf image
 
     </div>
 
     """,
-    unsafe_allow_html=True
-    )
+    unsafe_allow_html=True)
 
 
-with b:
 
-    st.markdown(
-    """
-    <div class="small-card">
+
+with c2:
+
+    st.markdown("""
+    <div class="feature">
 
     🤖
 
     <h3>
-    Deep Learning
+    AI Processing
     </h3>
 
-    MobileNetV2 classification
+    Deep learning image analysis
 
     </div>
 
     """,
-    unsafe_allow_html=True
-    )
+    unsafe_allow_html=True)
 
 
-with c:
 
-    st.markdown(
-    """
-    <div class="small-card">
+
+with c3:
+
+    st.markdown("""
+    <div class="feature">
 
     📊
 
     <h3>
-    Fast Prediction
+    Prediction
     </h3>
 
-    Real-time disease detection
+    Disease classification result
 
     </div>
 
     """,
-    unsafe_allow_html=True
-    )
+    unsafe_allow_html=True)
 
 
 
-st.markdown(
-"""
+
+# =====================================================
+# Footer
+# =====================================================
+
+
+st.markdown("""
 <div class="footer">
 
-🍅 Tomato Vision AI  
-Deep Learning Based Plant Disease Detection
+🍅 Tomato Leaf Disease Detection
+
+<br>
+
+Deep Learning Based Plant Disease Classification System
 
 </div>
+
 """,
-unsafe_allow_html=True
-)
+unsafe_allow_html=True)
